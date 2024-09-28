@@ -1,0 +1,57 @@
+html,
+body {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Trebuchet MS", sans-serif;
+}
+
+.container-grid {
+  display: grid;
+  /* grid-template-columns: 2fr 5fr; */
+  grid-template-columns: 1fr;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 0 1rem;
+  max-width: 1400px;
+}
+
+header {
+  text-align: center;
+  color: white;
+  background-image: linear-gradient(to right, #4b63b5, #392748);
+  padding: 1rem;
+  font-weight: bold;
+}
+
+h1 {
+  margin: 1rem 0 1rem 5rem;
+}
+
+.cards-forecast-container {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.card-forecast-weather {
+  color: white;
+  background-color: blue;
+  padding: 0.5rem;
+  font-weight: 300;
+  font-size: 1rem;
+  min-width: 200px;
+}
+
+@media (min-width: 768px) {
+  .container-grid {
+    grid-template-columns: 1fr 5fr;
+  }
+  .cards-forecast-container {
+    flex-direction: row;
+  }
+}

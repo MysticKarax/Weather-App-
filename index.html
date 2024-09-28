@@ -1,12 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Clima App</title>
-</head>
-<body>
-    <header>Hola Mundo!
+    <link rel="stylesheet" href="/CSS/style.css" />
+  </head>
+  <body>
+    <!-- TODO: COMO CAMBIAR EL NOMBRE DE PROYECTO -->
+    <header>
+      <h1>Weather Dashboard</h1>
     </header>
-</body>
+    <div class="container-grid">
+      <aside>
+        <form>
+          <label for="city-input">Search for a City</label>
+          <input id="city-input" type="text" placeholder="San Diego" />
+          <button type="submit" id="btn-search">Search</button>
+        </form>
+        <section id="common-cities">
+          <!-- TODO: UNA CLASE PARA AGREGAR ESPACIO ENTRE BOTONES -->
+          <button>Atlanta</button>
+          <button>Denver</button>
+          <button>Seattle</button>
+          <button>San Fransisco</button>
+          <button>Orlando</button>
+          <button>New York</button>
+          <button>Chicago</button>
+          <button>Austin</button>
+        </section>
+      </aside>
+      <main>
+        <section class="card-current-weather">
+          <h2>
+            Atlanta (<span id="main-weather-date">9/13/2022</span>)
+            <span class="emoji-weather">🌞</span>
+          </h2>
+          <p>Temp: <span class="weather-forecast temp">76.62</span>&deg;</p>
+          <p>Wind: <span class="weather-forecast wind">8.43 </span>MPH</p>
+          <p>Humidity: <span class="weather-forecast humidity">44</span>%</p>
+        </section>
+        <section>
+          <h3>5-Day Forecast:</h3>
+          <div class="cards-forecast-container">
+            <div class="card-forecast-weather">
+              <h4>9/15/2022</h4>
+              <p>🌞</p>
+              <p>
+                Temp: <span class="weather-forecast temp">63.55</span>&deg;F
+              </p>
+              <p>Wind: <span class="weather-forecast wind">3.94 </span>MPH</p>
+              <p>
+                Humidity: <span class="weather-forecast humidity">63</span>%
+              </p>
+            </div>
+            <div class="card-forecast-weather">
+              <h4>9/16/2022</h4>
+              <p class="emoji-weather">🌞</p>
+              <p>
+                Temp: <span class="weather-forecast temp">66.52</span>&deg;F
+              </p>
+              <p>Wind: <span class="weather-forecast wind">8.91</span>MPH</p>
+              <p>
+                Humidity: <span class="weather-forecast humidity">64</span>%
+              </p>
+            </div>
+            <div class="card-forecast-weather">
+              <h4>9/16/2022</h4>
+              <p class="emoji-weather">🌞</p>
+              <p>
+                Temp: <span class="weather-forecast temp">67.71</span>&deg;F
+              </p>
+              <p>Wind: <span class="weather-forecast wind">8.27</span>MPH</p>
+              <p>
+                Humidity: <span class="weather-forecast humidity">64</span>%
+              </p>
+            </div>
+            <div class="card-forecast-weather">
+              <h4 class="forecast-date">9/17/2022</h4>
+              <p class="emoji-weather">🌞</p>
+              <p>Temp: <span class="temp">67.1</span>&deg;F</p>
+              <p>Wind: <span class="wind">4.65 </span>MPH</p>
+              <p>Humidity: <span class="humidity">72</span>%</p>
+            </div>
+            <div class="card-forecast-weather">
+              <h4 class="forecast-date">9/18/2022</h4>
+              <p class="emoji-weather">🌞</p>
+              <p>Temp: <span class="temp">70.57</span>&deg;</p>
+              <p>Wind: <span class="wind">4.23 </span>MPH</p>
+              <p>Humidity: <span class="humidity">62</span>%</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
 </html>
