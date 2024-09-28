@@ -14,10 +14,16 @@
     <div class="container-grid">
       <aside>
         <form>
-          <label for="city-input">Search for a City</label>
-          <input id="city-input" type="text" placeholder="San Diego" />
+          <label class="label-title" for="city-input">Search for a City:</label>
+          <input
+            class="input-cities"
+            id="city-input"
+            type="text"
+            placeholder="San Diego"
+          />
           <button type="submit" id="btn-search">Search</button>
         </form>
+        <hr />
         <section id="common-cities">
           <!-- TODO: UNA CLASE PARA AGREGAR ESPACIO ENTRE BOTONES -->
           <button>Atlanta</button>
@@ -28,11 +34,13 @@
           <button>New York</button>
           <button>Chicago</button>
           <button>Austin</button>
+          <button>Los Angeles</button>
+          <button>Miami</button>
         </section>
       </aside>
       <main>
         <section class="card-current-weather">
-          <h2>
+          <h2 class="card-current-weather-title">
             Atlanta (<span id="main-weather-date">9/13/2022</span>)
             <span class="emoji-weather">🌞</span>
           </h2>
