@@ -1,7 +1,9 @@
 "use strict";
 
-// HTML ELEMENTS
+import config from "./config.js";
+const apiKey = config.apiKey;
 
+// HTML ELEMENTS
 const H_INPUT_CITIES = document.querySelector(".input-cities");
 const H_BTN_SEARCH = document.querySelector("#btn-search");
 const H_SELECTED_CITY = document.querySelector("#city-name");
@@ -18,7 +20,6 @@ const H_BTN_COMMON_CITIES = document.querySelector("#common-cities");
 const H_FORECAST_CONTAINER = document.querySelector(
   ".cards-forecast-container"
 );
-const htest = document.querySelector(".simon");
 
 // Global Variables
 let nSelectedCityLat;
@@ -54,30 +55,33 @@ H_BTN_COMMON_CITIES.addEventListener("click", async (e) => {
     return;
   }
 
-  // Borre el array de ciudades porque ya era innecesario
-
   H_SELECTED_CITY.textContent = btn_target.dataset.city;
-  nSelectedCityLat = +btn_target.dataset.lat;
+  nSelectedCityLat = +btn_target.dataset.lat; // +btn_target.dataset.lat y Number(btn_target.dataset.lat) son lo mismo pero mas "fancy"
   nSelectedCityLon = +btn_target.dataset.lon;
 
   await getCurrentWeather(nSelectedCityLat, nSelectedCityLon); // Esperando a que esta funcion devuelva el ID de la ciudad seleccionada
-  console.log(
-    "nSelectedCityID después de getCurrentWeather: ",
-    nSelectedCityID
-  ); // Verifica el valor de nSelectedCityID
 
   if (nSelectedCityID) {
     // Validando el ID de la ciudad
     getWeatherPrediction(nSelectedCityID); // Se ejecuta solo si hay un valor válido
     H_FORECAST_CONTAINER.innerHTML = ""; // Limpiar el contenedor para insertar los nuevos datos
   } else {
-    console.error("Error: nSelectedCityID no está definido.");
+    console.error("Error: nSelectedCityID Is Not Defined");
   }
 
   H_CURRENT_WEATHER_DATE.textContent = oAppState.currentWeather.date;
-  H_CURRENT_EMOJI_WEATHER.textContent = aEmojiWeather.find(
+  const foundWeatherEmoji = aEmojiWeather.find(
     (object) => oAppState.currentWeather.emoji === object.name
-  ).emoji;
+  );
+
+  // Verifica si se encontró el objeto antes de acceder a sus propiedades
+  if (foundWeatherEmoji) {
+    H_CURRENT_EMOJI_WEATHER.textContent = foundWeatherEmoji.emoji;
+  } else {
+    console.error("Emoji Not Found: Assigning ❓ As Default");
+    H_CURRENT_EMOJI_WEATHER.textContent = "❓"; // Asignar emoji por defecto
+  }
+
   H_CURRENT_TEMP_LABEL.textContent = oAppState.currentWeather.temp;
   H_CURRENT_WIND_LABEL.textContent = oAppState.currentWeather.wind;
   H_CURRENT_HUMIDITY_LABEL.textContent = oAppState.currentWeather.humidity;
@@ -103,55 +107,7 @@ function updateStateCurrentWeather(city, oCurrentWeather) {
   oAppState.currentWeather.humidity = oCurrentWeather.humidity;
 }
 
-// TODO: Al presionar cualquier boton, reemplazar los datos de
-// las tarjetas html por las de este array con objetos
-// Borrar todas las tarjetas y hacer el template string de 1 sola tarjeta.
-// Iterar en la cantidad de dias de las tarjetas para usar ese template
-
-// Ubicacion de la ciudad
-
-// Escribi "&units=imperial" porque quiero que las unidades de medida sean imperiales ya esa es la que usan los gringos.
-// function weatherFunction(lat, lon, apiKey, units) {
-//   return { lat, lon, apiKey, units };
-// }
-
-// weatherFunction(
-//   (apiKey = apiKey),
-//   (units = "imperial"),
-//   (lon = austinLon),
-//   (lat = austinLat)
-// );
-// Se inicia la peticion de datos a la API
-// fetch(url)
-//   .then((response) => {
-//     // Verificar si la respuesta es correcta
-//     if (!response.ok) {
-//       throw new Error("There was something wrong at gathering data");
-//     }
-//     return response.json(); // Convertimos la respuesta a JSON
-//   })
-//   .then((data) => {
-//     // Los datos del clima se muestran en pantalla
-//     console.log(data);
-//     // Accede a propiedades especificas, por ejemplo, el pronostico actual
-//     console.log(`The city is: ${data.name}`);
-//     console.log(`Temp: ${data.main.temp}°F`);
-//     console.log(`Wind: ${data.wind.speed} MPH`);
-//     console.log(`Humidity: ${data.main.humidity}%`);
-//     // O para el pronostico de varios dias (si esta en el objeto)
-//     // const dailyForecast = data.daily;
-//     // dailyForecast.forEach((day) => {
-//     //   console.log(`Dia: ${new Date(day.dt * 1000).toLocaleDateString()}`);
-//     //   console.log(`Temperatura: ${day.temp.day}°C`);
-//     //   console.log(`Clima: ${day.weather[0].description}`);
-//     // });
-//   })
-//   .catch((error) => {
-//     console.log("An error has occurred", error);
-//   });
-
 async function getCurrentWeather(lat, lon) {
-  const apiKey = "11d8e389af94a51e755bd821fe9be18a";
   // Making the API call
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
 
@@ -159,8 +115,6 @@ async function getCurrentWeather(lat, lon) {
     const response = await fetch(url);
     const data = await response.json();
     nSelectedCityID = data.id;
-    console.log(nSelectedCityID);
-    // console.log(`Clima: ${JSON.stringify(data, null, 2)}`);
 
     const oTodayWeatherInfo = {
       emoji: data.weather[0].main,
@@ -168,23 +122,20 @@ async function getCurrentWeather(lat, lon) {
       wind: data.wind.speed,
       humidity: data.main.humidity,
     };
+
     updateStateCurrentWeather(data.name, oTodayWeatherInfo);
-    // console.log("Este es el objecto app state: ", oAppState);
   } catch (error) {
-    console.log(`An error has occurred: ${error}`);
+    console.error(`An error has occurred: ${error}`);
   }
 }
 
 async function getWeatherPrediction(id) {
-  const apiKey = "11d8e389af94a51e755bd821fe9be18a";
   // Making the API call
-  // FIXME: Unidad de medida imperial
   const url = `https://api.openweathermap.org/data/2.5/forecast?id=${id}&appid=${apiKey}&units=imperial`;
 
   try {
     const response = await fetch(url);
     const data = await response.json();
-    // console.log(`Prediccion Clima: ${JSON.stringify(data, null, 2)}`);
 
     const sFiveDayForecastDates = data.list
       .filter((object) =>
@@ -209,9 +160,7 @@ async function getWeatherPrediction(id) {
     // de la propiedad dt_txt y guardalo en la variable sFiveDaysForecastDates
 
     oAppState.forecastWeather = [...sFiveDayForecastDates];
-
     displayWeatherCardInfo();
-    // console.log(oAppState);
   } catch (error) {
     console.log(`An error has occurred: ${error}`);
   }
