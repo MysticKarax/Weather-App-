@@ -13,13 +13,25 @@ body {
 }
 
 button {
-  width: 19rem;
+  width: 17rem;
   height: 2rem;
   border: none;
   background-color: #a7a7a7;
   border-radius: 7px;
   font-size: 0.8rem;
   font-weight: 600;
+  transition: background 50ms, transform 50ms;
+}
+
+button:hover {
+  cursor: pointer;
+  transition: background 50ms, transform 50ms;
+  background-color: #d2d1d1;
+}
+
+button:active {
+  transition: background 50ms;
+  background-color: #696969;
 }
 
 header {
@@ -30,14 +42,12 @@ header {
 }
 
 h1 {
-  /* margin: 1rem 0 1rem 5rem; */
-  padding: 0.1rem 0 0.1rem 25rem;
+  padding: 0.1rem 1rem 0.1rem 1rem;
 }
 
 .container-grid {
   display: grid;
   grid-template-columns: 1fr;
-  min-height: 100vh;
   margin: 1rem auto;
   padding: 0 1rem;
   max-width: 1600px;
@@ -52,7 +62,7 @@ form,
 }
 
 hr {
-  width: 90%;
+  width: 100%;
 }
 
 .label-title {
@@ -69,6 +79,18 @@ hr {
 #btn-search {
   background-color: #638fe8;
   color: white;
+  transition: background 50ms, transform 50ms;
+}
+
+#btn-search:hover {
+  cursor: pointer;
+  background-color: #4575d5;
+  transition: background 50ms, transform 50ms;
+}
+
+#btn-search:active {
+  background-color: #2856b1;
+  transition: background 50ms;
 }
 
 .card-current-weather {
@@ -82,11 +104,10 @@ hr {
 }
 
 .cards-forecast-container {
-  display: flex;
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.5rem;
-  flex-wrap: wrap;
-  flex-direction: column;
+  margin-bottom: 1rem;
 }
 
 .card-forecast-weather {
@@ -102,7 +123,10 @@ hr {
   .container-grid {
     grid-template-columns: 1.5fr 5fr;
   }
-  .cards-forecast-container {
-    flex-direction: row;
+}
+
+@media (min-width: 1400px) {
+  h1 {
+    padding: 0.1rem 1rem 0.1rem 25rem;
   }
 }
