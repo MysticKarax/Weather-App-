@@ -22,8 +22,6 @@ const H_FORECAST_CONTAINER = document.querySelector(
 );
 
 // Global Variables
-let nSelectedCityLat;
-let nSelectedCityLon;
 let nSelectedCityID;
 
 const aEmojiWeather = [
@@ -41,50 +39,38 @@ const aEmojiWeather = [
   },
 ];
 
-H_BTN_SEARCH.addEventListener("click", (e) => {
+H_BTN_SEARCH.addEventListener("click", async (e) => {
   e.preventDefault();
-  console.log("click");
+  await searchCity();
+
+  let cityExist = false;
+
+  if (H_BTN_COMMON_CITIES.childElementCount <= 10) {
+    for (let child of H_BTN_COMMON_CITIES.children) {
+      if (child.textContent === oAppState.city) {
+        cityExist = true;
+        H_BTN_COMMON_CITIES.prepend(child);
+
+        break;
+      }
+    }
+  }
+
+  if (!cityExist) {
+    H_BTN_COMMON_CITIES.insertAdjacentHTML(
+      "beforeend",
+      `<button>${oAppState.city}</button>`
+    );
+  }
 });
 
-// El EventListener se vuelve asincrono para asegurar que la funcion GetCurrentWeather devuelva el
-// ID correcto de nSelectedCityID antes de intentar ejecutar la funcion getWeatherPrediction y asi
-// evitar el error 400 bad request
-H_BTN_COMMON_CITIES.addEventListener("click", async (e) => {
+H_BTN_COMMON_CITIES.addEventListener("click", (e) => {
   let btn_target = e.target;
   if (!(btn_target instanceof HTMLButtonElement)) {
     return;
   }
 
-  H_SELECTED_CITY.textContent = btn_target.dataset.city;
-  nSelectedCityLat = +btn_target.dataset.lat; // +btn_target.dataset.lat y Number(btn_target.dataset.lat) son lo mismo pero mas "fancy"
-  nSelectedCityLon = +btn_target.dataset.lon;
-
-  await getCurrentWeather(nSelectedCityLat, nSelectedCityLon); // Esperando a que esta funcion devuelva el ID de la ciudad seleccionada
-
-  if (nSelectedCityID) {
-    // Validando el ID de la ciudad
-    getWeatherPrediction(nSelectedCityID); // Se ejecuta solo si hay un valor válido
-    H_FORECAST_CONTAINER.innerHTML = ""; // Limpiar el contenedor para insertar los nuevos datos
-  } else {
-    console.error("Error: nSelectedCityID Is Not Defined");
-  }
-
-  H_CURRENT_WEATHER_DATE.textContent = oAppState.currentWeather.date;
-  const foundWeatherEmoji = aEmojiWeather.find(
-    (object) => oAppState.currentWeather.emoji === object.name
-  );
-
-  // Verifica si se encontró el objeto antes de acceder a sus propiedades
-  if (foundWeatherEmoji) {
-    H_CURRENT_EMOJI_WEATHER.textContent = foundWeatherEmoji.emoji;
-  } else {
-    console.error("Emoji Not Found: Assigning ❓ As Default");
-    H_CURRENT_EMOJI_WEATHER.textContent = "❓"; // Asignar emoji por defecto
-  }
-
-  H_CURRENT_TEMP_LABEL.textContent = oAppState.currentWeather.temp;
-  H_CURRENT_WIND_LABEL.textContent = oAppState.currentWeather.wind;
-  H_CURRENT_HUMIDITY_LABEL.textContent = oAppState.currentWeather.humidity;
+  H_SELECTED_CITY.textContent = oAppState.city;
 });
 
 const oAppState = {
@@ -102,17 +88,21 @@ const oAppState = {
 function updateStateCurrentWeather(city, oCurrentWeather) {
   oAppState.city = city;
   oAppState.currentWeather.emoji = oCurrentWeather.emoji;
-  oAppState.currentWeather.temp = oCurrentWeather.temp;
-  oAppState.currentWeather.wind = oCurrentWeather.wind;
-  oAppState.currentWeather.humidity = oCurrentWeather.humidity;
+  oAppState.currentWeather.temp = `Temp: ${oCurrentWeather.temp}°F`;
+  oAppState.currentWeather.wind = `Wind: ${oCurrentWeather.wind} MPH`;
+  oAppState.currentWeather.humidity = `Humidity: ${oCurrentWeather.humidity}%`;
 }
 
-async function getCurrentWeather(lat, lon) {
+async function getCurrentWeather(city) {
   // Making the API call
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
 
   try {
     const response = await fetch(url);
+    if (response.status === 404) {
+      alert("City Not Found. Please Try Another One");
+      return;
+    }
     const data = await response.json();
     nSelectedCityID = data.id;
 
@@ -181,4 +171,47 @@ function displayWeatherCardInfo() {
       `;
     H_FORECAST_CONTAINER.insertAdjacentHTML("beforeend", H_CARDS);
   });
+}
+
+async function searchCity() {
+  if (
+    H_INPUT_CITIES.value === "" ||
+    H_INPUT_CITIES.value === null ||
+    H_INPUT_CITIES.value === undefined
+  ) {
+    return alert("Please search a valid city");
+  }
+
+  let sSelectedCity = H_INPUT_CITIES.value;
+
+  try {
+    await getCurrentWeather(sSelectedCity);
+  } catch (error) {
+    console.error("Error en searchCity");
+  }
+
+  if (nSelectedCityID) {
+    getWeatherPrediction(nSelectedCityID);
+    H_FORECAST_CONTAINER.innerHTML = "";
+  } else {
+    console.error("Error: nSelectedCityID Is Not Defined");
+  }
+
+  H_CURRENT_WEATHER_DATE.textContent = oAppState.currentWeather.date;
+  const foundWeatherEmoji = aEmojiWeather.find(
+    (object) => oAppState.currentWeather.emoji === object.name
+  );
+
+  if (foundWeatherEmoji) {
+    H_CURRENT_EMOJI_WEATHER.textContent = foundWeatherEmoji.emoji;
+  } else {
+    console.error("Emoji Not Found: Assigning ❓ As Default");
+    H_CURRENT_EMOJI_WEATHER.textContent = "❓";
+  }
+
+  H_SELECTED_CITY.textContent = oAppState.city;
+
+  H_CURRENT_TEMP_LABEL.textContent = oAppState.currentWeather.temp;
+  H_CURRENT_WIND_LABEL.textContent = oAppState.currentWeather.wind;
+  H_CURRENT_HUMIDITY_LABEL.textContent = oAppState.currentWeather.humidity;
 }

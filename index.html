@@ -18,149 +18,37 @@
           <button type="submit" id="btn-search">Search</button>
           <hr />
         </form>
-        <section id="common-cities">
-          <button
-            data-lat="33.75000003837814"
-            data-lon="-84.3883764027649"
-            data-city="Atlanta"
-          >
-            Atlanta
-          </button>
-          <button
-            data-lat="39.73927875901522"
-            data-lon="-104.99021015144456"
-            data-city="Denver"
-          >
-            Denver
-          </button>
-          <button
-            data-lat="47.60859699381132"
-            data-lon="-122.32744886818787"
-            data-city="Seattle"
-          >
-            Seattle
-          </button>
-          <button
-            data-lat="37.77614800519311"
-            data-lon="-122.41597143354822"
-            data-city="San Fransisco"
-          >
-            San Francisco
-          </button>
-          <button
-            data-lat="28.532738733601242"
-            data-lon="-81.3756275548525"
-            data-city="Orlando"
-          >
-            Orlando
-          </button>
-          <button
-            data-lat="40.71142538789773"
-            data-lon="-74.007845239148"
-            data-city="New York"
-          >
-            New York
-          </button>
-          <button
-            data-lat="41.88015467581117"
-            data-lon="-87.63584516123674"
-            data-city="Chicago"
-          >
-            Chicago
-          </button>
-          <button
-            data-lat="30.26971109182992"
-            data-lon="97.74270948217134"
-            data-city="Austin"
-          >
-            Austin
-          </button>
-          <button
-            data-lat="34.05986844032613"
-            data-lon="-118.20579011780785"
-            data-city="Los Angeles"
-          >
-            Los Angeles
-          </button>
-          <button
-            data-lat="25.758577681744793"
-            data-lon="-80.18791983989199"
-            data-city="Miami"
-          >
-            Miami
-          </button>
-        </section>
+        <section id="common-cities"></section>
       </aside>
       <main>
         <section class="card-current-weather">
           <h2 class="card-current-weather-title">
-            <span id="city-name">Atlanta</span> (<span
-              class="label-date"
-              id="current-weather-date"
-              >9/13/2022</span
-            >)
-            <span id="current-emoji-weather">☀️</span>
+            <span id="city-name"></span>
+            <span class="label-date" id="current-weather-date"></span>
+            <span id="current-emoji-weather"></span>
           </h2>
           <p>
-            Temp:
-            <span id="current-weather-temp" class="weather-forecast temp"
-              >76.62</span
-            >&deg;F
+            <span
+              id="current-weather-temp"
+              class="weather-forecast temp"
+            ></span>
           </p>
           <p>
-            Wind:
-            <span id="current-weather-wind" class="weather-forecast wind"
-              >8.43 </span
-            >MPH
+            <span
+              id="current-weather-wind"
+              class="weather-forecast wind"
+            ></span>
           </p>
           <p>
-            Humidity:
             <span
               id="current-weather-humidity"
               class="weather-forecast humidity"
-              >44</span
-            >%
+            ></span>
           </p>
         </section>
         <section>
           <h3>5-Day Forecast:</h3>
-          <div class="cards-forecast-container">
-            <div class="card-forecast-weather">
-              <h4 class="label-date cards-forecast">9/14/2022</h4>
-              <p class="emoji-weather">☀️</p>
-              <p>Temp: <span class="label-temp">63.55</span>&deg;F</p>
-              <p>Wind: <span class="label-wind">3.94 </span>MPH</p>
-              <p>Humidity: <span class="label-humidity">63</span>%</p>
-            </div>
-            <div class="card-forecast-weather">
-              <h4 class="label-date cards-forecast">9/15/2022</h4>
-              <p class="emoji-weather">☀️</p>
-              <p>Temp: <span class="label-temp">66.52</span>&deg;F</p>
-              <p>Wind: <span class="label-wind">3.91</span>MPH</p>
-              <p>Humidity: <span class="label-humidity">64</span>%</p>
-            </div>
-            <div class="card-forecast-weather">
-              <h4 class="label-date cards-forecast">9/16/2022</h4>
-              <p class="emoji-weather">☀️</p>
-              <p>Temp: <span class="label-temp">67.71</span>&deg;F</p>
-              <p>Wind: <span class="label-wind">3.27</span>MPH</p>
-              <p>Humidity: <span class="label-humidity">64</span>%</p>
-            </div>
-            <div class="card-forecast-weather">
-              <h4 class="label-date cards-forecast">9/17/2022</h4>
-              <p class="emoji-weather">☀️</p>
-              <p>Temp: <span class="la|bel-temp">67.1</span>&deg;F</p>
-              <p>Wind: <span class="label-wind">4.65 </span>MPH</p>
-              <p>Humidity: <span class="label-humidity">72</span>%</p>
-            </div>
-            <div class="card-forecast-weather">
-              <h4 class="label-date cards-forecast">9/18/2022</h4>
-              <p class="emoji-weather">☀️</p>
-              <p>Temp: <span class="label-temp">70.57</span>&deg;</p>
-              <p>Wind: <span class="label-wind">4.23 </span>MPH</p>
-              <p>Humidity: <span class="label-humidity">62</span>%</p>
-            </div>
-          </div>
+          <div class="cards-forecast-container"></div>
         </section>
       </main>
     </div>
